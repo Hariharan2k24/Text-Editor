@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Editor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="Text-Editor.css">
+</head>
+<body>
+
+<div class="editor-container">
+    <div class="toolbar">
+        <!-- Undo & Redo Buttons with Tooltips -->
+        <button class="btn btn-outline-secondary" title="Undo" onclick="execCmd('undo')"><i class="fa-solid fa-undo"></i></button>
+        <button class="btn btn-outline-secondary" title="Redo" onclick="execCmd('redo')"><i class="fa-solid fa-redo"></i></button>
+
+        <!-- Other Toolbar Options with Tooltips -->
+        <button class="btn btn-outline-secondary" title="Bold" onclick="execCmd('bold')"><i class="fa-solid fa-bold"></i></button>
+        <button class="btn btn-outline-secondary" title="Italic" onclick="execCmd('italic')"><i class="fa-solid fa-italic"></i></button>
+        <button class="btn btn-outline-secondary" title="Underline" onclick="execCmd('underline')"><i class="fa-solid fa-underline"></i></button>
+        <button class="btn btn-outline-secondary" title="Strike Through" onclick="execCmd('strikeThrough')"><i class="fa-solid fa-strikethrough"></i></button>
+        <button class="btn btn-outline-secondary" title="Bullet List" onclick="execCmd('insertUnorderedList')"><i class="fa-solid fa-list"></i></button>
+        <button class="btn btn-outline-secondary" title="Numbered List" onclick="execCmd('insertOrderedList')"><i class="fa-solid fa-list-ol"></i></button>
+        <button class="btn btn-outline-secondary" title="Align Left" onclick="execCmd('justifyLeft')"><i class="fa-solid fa-align-left"></i></button>
+        <button class="btn btn-outline-secondary" title="Align Center" onclick="execCmd('justifyCenter')"><i class="fa-solid fa-align-center"></i></button>
+        <button class="btn btn-outline-secondary" title="Align Right" onclick="execCmd('justifyRight')"><i class="fa-solid fa-align-right"></i></button>
+        <button class="btn btn-outline-secondary" title="Justify" onclick="execCmd('justifyFull')"><i class="fa-solid fa-align-justify"></i></button>
+        <button class="btn btn-outline-secondary" title="Link" onclick="execCmd('createLink')"><i class="fa-solid fa-link"></i></button>
+        <button class="btn btn-outline-secondary" title="Copy" onclick="execCmd('copy')"><i class="fa-solid fa-copy"></i></button>
+        <button class="btn btn-outline-secondary" title="Cut" onclick="execCmd('cut')"><i class="fa-solid fa-scissors"></i></button>
+        <button class="btn btn-outline-secondary" title="Paste" onclick="execCmd('paste')"><i class="fa-solid fa-paste"></i></button>
+        <button class="btn btn-outline-secondary" title="Delete" onclick="execCmd('delete')"><i class="fa-solid fa-trash"></i></button>
+
+        <!-- Increase/Decrease Indent with Tooltips -->
+        <button class="btn btn-outline-secondary" title="Increase Indent" onclick="execCmd('indent')"><i class="fa-solid fa-indent"></i></button>
+        <button class="btn btn-outline-secondary" title="Decrease Indent" onclick="execCmd('outdent')"><i class="fa-solid fa-outdent"></i></button>
+
+        <!-- Font Family with Tooltip -->
+        <select title="Font Family" onchange="setFontFamily(this.value)">
+            <option value="">Font Family</option>
+            <option value="Arial">Arial</option>
+            <option value="Times New Roman">Times New Roman</option>
+            <option value="Courier New">Courier New</option>
+            <option value="Verdana">Verdana</option>
+        </select>
+
+        <!-- Font Size with Tooltip -->
+        <select title="Font Size" onchange="setFontSize(this.value)">
+            <option value="">Font Size</option>
+            <option value="1">Small</option>
+            <option value="3">Normal</option>
+            <option value="5">Large</option>
+            <option value="7">Huge</option>
+        </select>
+
+        <!-- Line Spacing with Tooltip -->
+        <select title="Line Spacing" onchange="setLineHeight(this.value)">
+            <option value="">Line Spacing</option>
+            <option value="1">1</option>
+            <option value="1.5">1.5</option>
+            <option value="2">2</option>
+            <option value="2.5">2.5</option>
+            <option value="3">3</option>
+        </select>
+
+       <!-- Insert Image with Size Controls and Tooltip -->
+        <button class="btn btn-outline-secondary" title="Insert Image" onclick="insertImage()"><i class="fa-solid fa-image"></i></button>
+        <!-- Image Width and Height Inputs -->
+        <input type="number" id="image-width" placeholder="Width (px)" style="width: 100px;">
+        <input type="number" id="image-height" placeholder="Height (px)" style="width: 100px;">
+
+        <!-- Highlight Button and Input with Tooltip -->
+        <input type="color" id="highlight-color" title="Highlight Color" onchange="setHighlightColor(this.value)">
+        <button class="btn btn-outline-secondary" title="Remove Highlight" onclick="removeHighlight()"><i class="fa-solid fa-eraser"></i> No Highlight</button>
+
+        <!-- Font Color with Tooltip -->
+        <input type="color" id="font-color" title="Font Color" onchange="setFontColor(this.value)">
+
+        <!-- Save Button with Tooltip -->
+        <button class="btn btn-outline-success" title="Save to File" onclick="saveFile()">Save to File</button>
+    </div>
+    <div id="text-editor" contenteditable="true"></div>
+</div>
+
+<script>
+    // Execute the command for the toolbar buttons
+function execCmd(command) {
+    document.execCommand(command, false, null);
+}
+
+// Set font family
+function setFontFamily(font) {
+    document.execCommand('fontName', false, font);
+}
+
+// Set font size
+function setFontSize(size) {
+    document.execCommand('fontSize', false, size);
+}
+
+// Set line height (line spacing)
+function setLineHeight(height) {
+    document.getElementById('text-editor').style.lineHeight = height;
+}
+
+// Set the background color for the highlight feature
+function setHighlightColor(color) {
+    document.execCommand('backColor', false, color);
+}
+
+// Remove highlight (set backColor to default)
+function removeHighlight() {
+    document.execCommand('backColor', false, 'transparent');
+}
+
+// Set font color
+function setFontColor(color) {
+    document.execCommand('foreColor', false, color);
+}
+
+// Insert an image
+// Insert an image with size control
+function insertImage() {
+    const url = prompt('Enter the image URL');
+    const width = document.getElementById('image-width').value || '200px';  // Default to auto if not specified
+    const height = document.getElementById('image-height').value || '200px'; // Default to auto if not specified
+
+    if (url) {
+        const img = `<img src="${url}" style="width:${width}px; height:${height}px;">`;
+        document.getElementById('text-editor').focus();
+        document.execCommand('insertHTML', false, img);
+    }
+}
+
+
+// Save the content as a file
+function saveFile() {
+    const content = document.getElementById('text-editor').innerHTML;
+    const blob = new Blob([content], { type: 'text/html' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'text-editor-content.html';
+    link.click();
+}
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

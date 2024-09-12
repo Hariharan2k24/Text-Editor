@@ -1,0 +1,61 @@
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        .editor-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .toolbar button,
+        .toolbar input[type="color"] {
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+        }
+        .toolbar select {
+            padding: 5px;
+            border-radius: 5px;
+        }
+        #text-editor {
+            width: 100%;
+            max-height: 300px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+            background-color: #fafafa;
+            overflow-y: auto;
+            overflow-x: hidden;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+            box-sizing: border-box;
+        }
+        #text-editor[contenteditable="true"]:empty:before {
+            content: "Start writing here...";
+            color: #aaa;
+        }
+        /* Style the input[type="color"] */
+        input[type="color"] {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
